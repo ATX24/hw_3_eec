@@ -1,7 +1,4 @@
-# build outputs
-rapl/rapl
 *.class
 *.o
 __pycache__/
 *.csv
-*.pdf

@@ -4,6 +4,8 @@
 \usepackage[hidelinks]{hyperref}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
 
 \begin{document}
 
@@ -15,9 +17,15 @@
 In this homework you will write a few small test programs in Python, Java, and C++ and
 compare how much energy each one uses.
 
-To get energy data for a program, build the provided tool once with \texttt{make -C rapl},
-then put \texttt{./rapl} in front of the command you would normally use to run your program.
-For example:
+\textbf{Setup.} On a UTCS lab machine, clone the repo and work inside it:
+
+\begin{verbatim}
+    git clone https://github.com/ATX24/hw_3_eec.git
+    cd hw_3_eec
+\end{verbatim}
+
+To measure a program, put \texttt{./rapl} in front of the command you would normally use
+to run it:
 
 \begin{verbatim}
     ./rapl python3 test.py
@@ -25,55 +33,36 @@ For example:
     ./rapl ./test
 \end{verbatim}
 
-\texttt{rapl} prints the runtime, the CPU package energy, and the memory (DRAM) energy used
-while your program ran. Add \texttt{-r 5} to run it 5 times
-(e.g.\ \texttt{./rapl -r 5 python3 test.py}). Do this homework on a UTCS lab machine.
+\texttt{rapl} prints how long your program ran and how much energy the CPU and memory
+used. Add \mbox{\texttt{-r 5}} to run it 5 times. If \texttt{./rapl} does not run, rebuild it
+with \texttt{make}.
 
-Write each program the same way in all three languages: same algorithm, same loops, same
-input size. Do not use libraries that do the work for you (e.g.\ NumPy or built-in sort
-functions). Compile your C++ with \texttt{g++ -O2}.
+Write each program the same way in all three languages. Do not use libraries that do the
+work for you (like NumPy or built-in sort functions). Compile C++ with \texttt{g++ -O2}.
 
 \begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=*, itemsep=10pt]
 
-\item For each program below, write a Python, a Java, and a C++ version. For each one:
-  (i) use \texttt{rapl} to get the runtime and energy of all three versions, averaged over
-  at least 5 runs, and (ii) compare the three languages. Which used the least energy,
-  and by how much?
+\item Write a Python, Java, and C++ version of each program below. For each one, use
+  \texttt{rapl} to get the energy of all three versions, then compare them.
 
   \begin{enumerate}[label=\textbf{\alph*.}, itemsep=4pt]
-    \item \textbf{Matrix multiply:} multiply two $400 \times 400$ matrices of doubles using
-          the basic triple loop.
-    \item \textbf{Quicksort:} sort 2,000,000 random integers.
-    \item \textbf{Mergesort:} sort 2,000,000 random integers.
-    \item \textbf{Fibonacci:} compute \texttt{fib(35)} with plain recursion,
-          \texttt{fib(n) = fib(n-1) + fib(n-2)}.
+    \item Matrix multiply: two $400 \times 400$ matrices using a triple loop.
+    \item Quicksort: 2,000,000 random integers.
+    \item Mergesort: 2,000,000 random integers.
+    \item Fibonacci: \texttt{fib(35)} using plain recursion.
   \end{enumerate}
 
-\item Why? Explain the differences you saw in Question 1. Think about how each language
-  actually runs your code (interpreter, just-in-time compiler, or ahead-of-time compiler).
-  Is energy roughly proportional to runtime? (Hint: run \texttt{./rapl sleep 10} to see how
-  much energy the machine uses while doing nothing.)
+\item Why? Explain the differences you saw in Question 1. (Hint: run
+  \texttt{./rapl sleep 10} to see how much energy the machine uses doing nothing.)
 
-\item Research how garbage collection in the Java runtime affects energy usage. Describe at
-  least two of Java's garbage collectors (e.g.\ Serial, Parallel, G1, ZGC) and the energy
-  tradeoffs between them. Cite your sources. \emph{Optional:} rerun one of your Java
-  programs with \texttt{-XX:+UseSerialGC} and with \texttt{-XX:+UseParallelGC} and compare.
+\item Research how garbage collection in the Java runtime affects energy usage.
 
-\item Research how RAPL (Running Average Power Limit) works on Intel processors.
-  \begin{enumerate}[label=\textbf{\alph*.}, itemsep=4pt]
-    \item How does the chip estimate or measure energy? What are the power domains
-          (e.g.\ package, cores, DRAM), and how often are the counters updated?
-    \item How can software read these counters? Describe both the model-specific
-          registers (MSRs) and the Linux \texttt{powercap} interface in
-          \texttt{/sys/class/powercap/}.
-    \item Look at \texttt{rapl/rapl.c}. How does it compute the energy of your program,
-          and what happens when a counter overflows?
-    \item What are the limitations of RAPL? Why can't it tell you exactly how much energy
-          \emph{your} program used on a shared machine?
-  \end{enumerate}
+\item Research RAPL (Running Average Power Limit) on Intel processors. How does the chip
+  keep track of energy, and how can software read that data? Look at \texttt{rapl.c} to
+  see how our tool does it.
 
 \end{enumerate}
 
-\textbf{Submit:} your source files and a PDF with your measurements and answers.
+\textbf{Submit:} your source files and a PDF with your results and answers.
 
 \end{document}
