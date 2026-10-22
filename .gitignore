@@ -1,11 +1,7 @@
 # build outputs
 rapl/rapl
-bench
 *.class
 *.o
 __pycache__/
 *.csv
-
-# instructor reference solutions
-solutions/
 *.pdf

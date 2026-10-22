@@ -59,6 +59,19 @@ functions). Compile your C++ with \texttt{g++ -O2}.
   tradeoffs between them. Cite your sources. \emph{Optional:} rerun one of your Java
   programs with \texttt{-XX:+UseSerialGC} and with \texttt{-XX:+UseParallelGC} and compare.
 
+\item Research how RAPL (Running Average Power Limit) works on Intel processors.
+  \begin{enumerate}[label=\textbf{\alph*.}, itemsep=4pt]
+    \item How does the chip estimate or measure energy? What are the power domains
+          (e.g.\ package, cores, DRAM), and how often are the counters updated?
+    \item How can software read these counters? Describe both the model-specific
+          registers (MSRs) and the Linux \texttt{powercap} interface in
+          \texttt{/sys/class/powercap/}.
+    \item Look at \texttt{rapl/rapl.c}. How does it compute the energy of your program,
+          and what happens when a counter overflows?
+    \item What are the limitations of RAPL? Why can't it tell you exactly how much energy
+          \emph{your} program used on a shared machine?
+  \end{enumerate}
+
 \end{enumerate}
 
 \textbf{Submit:} your source files and a PDF with your measurements and answers.
