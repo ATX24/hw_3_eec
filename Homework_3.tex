@@ -1,0 +1,66 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+\begin{center}
+  {\Large \textbf{Energy-Efficient Computing}}\\[4pt]
+  {\large Homework 3}
+\end{center}
+
+In this homework you will write a few small test programs in Python, Java, and C++ and
+compare how much energy each one uses.
+
+To get energy data for a program, build the provided tool once with \texttt{make -C rapl},
+then put \texttt{./rapl} in front of the command you would normally use to run your program.
+For example:
+
+\begin{verbatim}
+    ./rapl python3 test.py
+    ./rapl java Test
+    ./rapl ./test
+\end{verbatim}
+
+\texttt{rapl} prints the runtime, the CPU package energy, and the memory (DRAM) energy used
+while your program ran. Add \texttt{-r 5} to run it 5 times
+(e.g.\ \texttt{./rapl -r 5 python3 test.py}). Do this homework on a UTCS lab machine.
+
+Write each program the same way in all three languages: same algorithm, same loops, same
+input size. Do not use libraries that do the work for you (e.g.\ NumPy or built-in sort
+functions). Compile your C++ with \texttt{g++ -O2}.
+
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=*, itemsep=10pt]
+
+\item For each program below, write a Python, a Java, and a C++ version. For each one:
+  (i) use \texttt{rapl} to get the runtime and energy of all three versions, averaged over
+  at least 5 runs, and (ii) compare the three languages. Which used the least energy,
+  and by how much?
+
+  \begin{enumerate}[label=\textbf{\alph*.}, itemsep=4pt]
+    \item \textbf{Matrix multiply:} multiply two $400 \times 400$ matrices of doubles using
+          the basic triple loop.
+    \item \textbf{Quicksort:} sort 2,000,000 random integers.
+    \item \textbf{Mergesort:} sort 2,000,000 random integers.
+    \item \textbf{Fibonacci:} compute \texttt{fib(35)} with plain recursion,
+          \texttt{fib(n) = fib(n-1) + fib(n-2)}.
+  \end{enumerate}
+
+\item Why? Explain the differences you saw in Question 1. Think about how each language
+  actually runs your code (interpreter, just-in-time compiler, or ahead-of-time compiler).
+  Is energy roughly proportional to runtime? (Hint: run \texttt{./rapl sleep 10} to see how
+  much energy the machine uses while doing nothing.)
+
+\item Research how garbage collection in the Java runtime affects energy usage. Describe at
+  least two of Java's garbage collectors (e.g.\ Serial, Parallel, G1, ZGC) and the energy
+  tradeoffs between them. Cite your sources. \emph{Optional:} rerun one of your Java
+  programs with \texttt{-XX:+UseSerialGC} and with \texttt{-XX:+UseParallelGC} and compare.
+
+\end{enumerate}
+
+\textbf{Submit:} your source files and a PDF with your measurements and answers.
+
+\end{document}

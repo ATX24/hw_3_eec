@@ -8,3 +8,4 @@ __pycache__/
 
 # instructor reference solutions
 solutions/
+*.pdf
